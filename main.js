@@ -136,7 +136,7 @@ class Juego{
     defeat(){
         this.eliminarClicks();
         contenedorResultados.classList.add('derrota');
-        resultado.innerHTML = `Que mal perdiste :(  llegaste al nivel ${ultimoNivel} `;
+        resultado.innerHTML = `Que mal perdiste :(  llegaste al nivel ${this.nivel}`;
         contenedorResultados.classList.remove('hide-result');
     }
 }
