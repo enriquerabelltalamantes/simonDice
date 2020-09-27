@@ -4,7 +4,11 @@ const celeste = document.getElementById('celeste');
 const violeta = document.getElementById('violeta');
 const naranja = document.getElementById('naranja');
 const verde = document.getElementById('verde');
+const contenedorResultados = document.getElementById('contenedor-resultados');
+const resultado = document.getElementById('resultado');
 const ultimoNivel = 15;
+
+let juego;
 
 class Juego{
     constructor(){
@@ -36,9 +40,7 @@ class Juego{
     }
     generarSecuencia(){
         this.secuencia = new Array(ultimoNivel).fill(0).map(number => 
-            Math.floor(Math.random() * 4));
-        
-        
+            Math.floor(Math.random() * 4));    
     }
     siguienteNivel(){
         this.subnivel = 0;
@@ -127,19 +129,26 @@ class Juego{
         }
     }
     victory(){
-        swal('Felicitaciones', `Ganaste, pasaste los ${ultimoNivel} niveles :)`, 'success')
-        .then(() => {
-            this.inicializar();
-        });
+        contenedorResultados.classList.add('victoria');
+        resultado.innerHTML = `Felicitaciones, ganaste los ${ultimoNivel} niveles`;
+        contenedorResultados.classList.remove('hide-result');
     }
     defeat(){
-        swal('Lo siento', `Has perdido :(, llegaste al ${this.nivel} nivel`, 'error')
-        .then(() => {
-            this.eliminarClicks();
-            this.inicializar();
-        });
+        this.eliminarClicks();
+        contenedorResultados.classList.add('derrota');
+        resultado.innerHTML = `Que mal perdiste :(  llegaste al nivel ${ultimoNivel} `;
+        contenedorResultados.classList.remove('hide-result');
     }
 }
 const empezarJuego = () =>{
-    let juego = new Juego();
+    juego = new Juego();
+}
+function reiniciar(){
+    contenedorResultados.classList.add('hide-result');
+    if(contenedorResultados.classList.contains('derrota')){
+        contenedorResultados.classList.remove('derrota');
+    }else if(contenedorResultados.classList.contains('victoria')){
+        contenedorResultados.classList.remove('victoria');            
+    }
+    juego.inicializar();
 }

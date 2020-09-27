@@ -1,20 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simon Dice</title>
-    <link rel="stylesheet" href="style.css">
+    <link media="min-width:600" rel="stylesheet" href="estilos/desktop.css"">
+    <link rel="stylesheet" href="estilos/style.css">
+    
   </head>
   <body>
     <span class="contenedor_texto"><h1 id="textoNivel">Nivel actual: 1</h1></span>
     <div class="gameboard">
       <div id="celeste" class="color celeste left" data-color="celeste"></div>
+      <div id="verde" class="color verde right" data-color="verde"></div>
       <div id="violeta" class="color violeta right" data-color="violeta"></div>
       <div id="naranja" class="color naranja left" data-color="naranja"></div>
-      <div id="verde" class="color verde right" data-color="verde"></div>
       <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">¡Empezar!</button>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <footer id="contenedor-resultados" class="muestra-resultados victoria" >
+          <h1 id="resultado">Rayos, perdiste</h1>
+          <button id="btn-continuar" onclick="reiniciar()">Volver a jugar</button>
+    </footer>
     <script src="./main.js"></script>
   </body>
 </html>
