@@ -4,23 +4,72 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simon Dice</title>
-    <link media="min-width:600" rel="stylesheet" href="estilos/desktop.css"">
-    <link rel="stylesheet" href="estilos/style.css">
-    
+    <link rel="stylesheet" href="estilos/style.css"> 
   </head>
   <body>
-    <span class="contenedor_texto"><h1 id="textoNivel">Nivel actual: 1</h1></span>
-    <div class="gameboard">
-      <div id="celeste" class="color celeste left" data-color="celeste"></div>
-      <div id="verde" class="color verde right" data-color="verde"></div>
-      <div id="violeta" class="color violeta right" data-color="violeta"></div>
-      <div id="naranja" class="color naranja left" data-color="naranja"></div>
-      <button id="btnEmpezar" class="btn-start" onclick="empezarJuego()">¡Empezar!</button>
+    <button class="openPanel" id="panelButton">🔧</button>
+    <section class="hide" id="result">
+      <h1 class="result-text" id="result-text">Felicidades ganaste!</h1>
+      <button class="ok-button" id="ok-button">Ok, understandable</button>
+    </section>
+    <button class="startButton" id="startButton">Start</button>
+    <div class="UIPanel hide" id="panel">
+      <p>Preferences:</p>
+      <p>Difficulty</p>
+      <div class="difficultyButtons">
+        <button class="difficultyButton" id="difficulty2">2x2</button>
+        <button class="difficultyButton" id="difficulty3">3x3</button>
+        <button class="difficultyButton" id="difficulty4">4x4</button>
+        <button class="difficultyButton" id="difficulty5">5x5</button>
+        <button class="difficultyButton" id="difficulty6">6x6</button>
+      </div>
+      <p>Color</p>
+      <div class="colorButtons">
+        <button class="blue" id="blue"></button>
+        <button class="pink" id="pink"></button>
+        <button class="orange" id="orange"></button>
+        <button class="green" id="green"></button>
+      </div>
     </div>
-    <footer id="contenedor-resultados" class="muestra-resultados victoria" >
-          <h1 id="resultado">Rayos, perdiste</h1>
-          <button id="btn-continuar" onclick="reiniciar()">Volver a jugar</button>
-    </footer>
-    <script src="./main.js"></script>
+    <main class="container" id="container">
+        <div class="cell" id="1"></div>
+        <div class="cell" id="2"></div>
+        <div class="cell" id="3"></div>
+        <div class="cell" id="4"></div>
+        <div class="cell hide" id="5"></div>
+        <div class="cell hide" id="6"></div>
+        <div class="cell hide" id="7"></div>
+        <div class="cell hide" id="8"></div>
+        <div class="cell hide" id="9"></div>
+        <div class="cell hide" id="10"></div>
+        <div class="cell hide" id="11"></div>
+        <div class="cell hide" id="12"></div>
+        <div class="cell hide" id="13"></div>
+        <div class="cell hide" id="14"></div>
+        <div class="cell hide" id="15"></div>
+        <div class="cell hide" id="16"></div>
+        <div class="cell hide" id="17"></div>
+        <div class="cell hide" id="18"></div>
+        <div class="cell hide" id="19"></div>
+        <div class="cell hide" id="20"></div>
+        <div class="cell hide" id="21"></div>
+        <div class="cell hide" id="22"></div>
+        <div class="cell hide" id="23"></div>
+        <div class="cell hide" id="24"></div>
+        <div class="cell hide" id="25"></div>
+        <div class="cell hide" id="26"></div>
+        <div class="cell hide" id="27"></div>
+        <div class="cell hide" id="28"></div>
+        <div class="cell hide" id="29"></div>
+        <div class="cell hide" id="30"></div>
+        <div class="cell hide" id="31"></div>
+        <div class="cell hide" id="32"></div>
+        <div class="cell hide" id="33"></div>
+        <div class="cell hide" id="34"></div>
+        <div class="cell hide" id="35"></div>
+        <div class="cell hide" id="36"></div>
+    </main>
+    <script src="main.js"></script>
+    <script src="settings.js"></script>
   </body>
 </html>

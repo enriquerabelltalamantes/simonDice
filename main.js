@@ -1,154 +1,120 @@
-const textoNivel = document.getElementById('textoNivel');
-const btnEmpezar = document.getElementById('btnEmpezar');
-const celeste = document.getElementById('celeste');
-const violeta = document.getElementById('violeta');
-const naranja = document.getElementById('naranja');
-const verde = document.getElementById('verde');
-const contenedorResultados = document.getElementById('contenedor-resultados');
-const resultado = document.getElementById('resultado');
-const ultimoNivel = 15;
+const startButton = document.getElementById('startButton');
+const panelButton = document.getElementById('panelButton');
+const resultBox = document.getElementById('result');
+const resultText = document.getElementById('result-text');
+const resultButton = document.getElementById('ok-button');
+const levels = 7;
+const cells = [];
 
-let juego;
+let colorClass = 'blue';
+let size = 4;
 
-class Juego{
+let game;
+
+function startCells(){
+    for(let i = 1; i < size+1 ; i++){
+        cells.push(document.getElementById(i.toString()));
+    }
+}
+
+startButton.onclick = () => { 
+    game = new Game()
+};
+
+function togglePanelButton(){
+    if(panelButton.classList.contains('hide')){
+        panelButton.classList.remove('hide')
+    }else{
+        panelButton.classList.add('hide')
+    }
+}
+
+class Game{
     constructor(){
-        this.inicializar();        
+        this.init();        
         setTimeout(() => {
-            this.siguienteNivel();
+            this.nextLevel();
         }, 500);
     }
-    inicializar(){
-        this.generarSecuencia();
-        this.elegirColor = this.elegirColor.bind(this);
-        this.siguienteNivel = this.siguienteNivel.bind(this);
-        this.agregarClicks = this.agregarClicks.bind(this);
-        this.toggleBtnEmpezar();
-        this.nivel = 1;
-        this.colores = {
-            celeste,
-            violeta,
-            naranja,
-            verde,
-        }
+    init(){
+        startCells();
+        this.generateSequence();
+        this.pickedColor = this.pickedColor.bind(this);
+        this.nextLevel = this.nextLevel.bind(this);
+        this.addClicks = this.addClicks.bind(this);
+        togglePanelButton();
+        this.toggleStartButton();
+        this.level = 1;
     }
-    toggleBtnEmpezar(){
-        if(btnEmpezar.classList.contains('hide')){
-            btnEmpezar.classList.remove('hide');
+    toggleStartButton(){
+        if(startButton.classList.contains('hide')){
+            startButton.classList.remove('hide');
         }else{
-            btnEmpezar.classList.add('hide');
+            startButton.classList.add('hide');
         }
     }
-    generarSecuencia(){
-        this.secuencia = new Array(ultimoNivel).fill(0).map(number => 
-            Math.floor(Math.random() * 4));    
+    generateSequence(){
+        this.sequence = new Array(levels).fill(0).map(number => 
+            Math.floor(Math.random() * size));    
     }
-    siguienteNivel(){
-        this.subnivel = 0;
-        this.actualizarNivel();
-        this.iluminarSecuencia();
-        setTimeout(this.agregarClicks, this.nivel*1000);
+    nextLevel(){
+        this.step = 0;
+        this.enlightSequence();
+        setTimeout(this.addClicks, this.nivel*1000);
     }
-    actualizarNivel(){
-        let nivelMostrado = this.maxClamp(this.nivel, ultimoNivel);
-        textoNivel.innerHTML = `Nivel actual: ${nivelMostrado}`;
-    }
-    maxClamp(numero, maximo){
-        if(numero > maximo){
-            return maximo
-        }else {
-            return numero
+    enlightSequence(){
+        for(var i = 0; i < this.level; i++ ){
+            let cell = this.sequence[i];
+            setTimeout(() => this.enlight(cell), (1000 * i) + 500);
         }
     }
-    numeroAColor(numero){
-        switch(numero){
-            case 0:
-                return 'celeste';
-            case 1: 
-                return 'violeta';
-            case 2:
-                return 'naranja';
-            case 3:
-                return 'verde';
+    enlight(cell){
+        cells[cell].classList.add(colorClass);
+        setTimeout(() => this.de_enlight(cell), 350);
+    }
+    de_enlight(cell){
+        cells[cell].classList.remove(colorClass);
+    }
+    addClicks(){
+        for(let i = 0; i < size; i++){
+            cells[i].addEventListener('click', this.pickedColor);
         }
     }
-    colorANumero(color){
-        switch(color){
-            case 'celeste':
-                return 0;
-            case 'violeta': 
-                return 1;
-            case 'naranja':
-                return 2;
-            case 'verde':
-                return 3;
+    removeClicks(){
+        for(let i = 0; i < size; i++){
+            cells[i].removeEventListener('click', this.pickedColor);
         }
     }
-    iluminarSecuencia(){
-        for(var i = 0;i < this.nivel; i++ ){
-            let color = this.numeroAColor(this.secuencia[i]);
-            setTimeout(() => this.iluminarColor(color), 1000 * i);
-        }
-    }
-    iluminarColor(color){
-        this.colores[color].classList.add('light');
-        setTimeout(() => this.apagarColor(color), 350);
-    }
-    apagarColor(color){
-        this.colores[color].classList.remove('light');
-    }
-    agregarClicks(){
-        this.colores.celeste.addEventListener('click', this.elegirColor);
-        this.colores.verde.addEventListener('click', this.elegirColor);
-        this.colores.violeta.addEventListener('click', this.elegirColor);
-        this.colores.naranja.addEventListener('click', this.elegirColor);
-    }
-    eliminarClicks(){
-        this.colores.celeste.removeEventListener('click', this.elegirColor);
-        this.colores.verde.removeEventListener('click', this.elegirColor);
-        this.colores.violeta.removeEventListener('click', this.elegirColor);
-        this.colores.naranja.removeEventListener('click', this.elegirColor);
-    }
-    elegirColor(ev){
-        const nombreColor = ev.target.dataset.color;
-        const numeroColor = this.colorANumero(nombreColor);
-        this.iluminarColor(nombreColor);
-        if(numeroColor == this.secuencia[this.subnivel]){
-            this.subnivel++;
-            if(this.subnivel === this.nivel){
-                this.nivel++;
-                this.eliminarClicks();
-                if(this.nivel === (ultimoNivel + 1)){
+    pickedColor(ev){
+        const cell = ev.target.id;
+        this.enlight(cell-1);
+        if(this.sequence[this.step] == cell-1){
+            this.step++;
+            if(this.step == this.level){
+                this.removeClicks();
+                this.level++;
+                if(this.level-1 == levels){
                     this.victory();
                 }else{
-                    setTimeout(this.siguienteNivel, 1500);
+                    setTimeout(()=> this.nextLevel(), 1000);
                 }
             }
-
-        }else {
+        }else{
+            this.removeClicks();
             this.defeat();
         }
     }
     victory(){
-        contenedorResultados.classList.add('victoria');
-        resultado.innerHTML = `Felicitaciones, ganaste los ${ultimoNivel} niveles`;
-        contenedorResultados.classList.remove('hide-result');
+        resultText.innerHTML = `Congratulations, you have won the ${levels} levels`;
+        resultBox.classList.remove('hide');
     }
     defeat(){
-        this.eliminarClicks();
-        contenedorResultados.classList.add('derrota');
-        resultado.innerHTML = `Que mal perdiste :(  llegaste al nivel ${ultimoNivel} `;
-        contenedorResultados.classList.remove('hide-result');
+        resultText.innerHTML = `Oh, you lost :(  you got to level ${this.level} `;
+        resultBox.classList.remove('hide');
     }
 }
-const empezarJuego = () =>{
-    juego = new Juego();
-}
-function reiniciar(){
-    contenedorResultados.classList.add('hide-result');
-    if(contenedorResultados.classList.contains('derrota')){
-        contenedorResultados.classList.remove('derrota');
-    }else if(contenedorResultados.classList.contains('victoria')){
-        contenedorResultados.classList.remove('victoria');            
-    }
-    juego.inicializar();
+
+resultButton.onclick = () => {
+    resultBox.classList.add('hide');
+    game.init();
 }
