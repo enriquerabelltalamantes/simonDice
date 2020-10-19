@@ -109,7 +109,6 @@ class Game{
         resultBox.classList.remove('hide');
     }
     defeat(){
-<<<<<<< HEAD
         resultText.innerHTML = `Oh, you lost :(  you got to level ${this.level} `;
         resultBox.classList.remove('hide');
     }
@@ -119,23 +118,3 @@ resultButton.onclick = () => {
     resultBox.classList.add('hide');
     game.init();
 }
-=======
-        this.eliminarClicks();
-        contenedorResultados.classList.add('derrota');
-        resultado.innerHTML = `Que mal, perdiste :(  llegaste al nivel ${this.nivel}`;
-        contenedorResultados.classList.remove('hide-result');
-    }
-}
-const empezarJuego = () =>{
-    juego = new Juego();
-}
-function reiniciar(){
-    contenedorResultados.classList.add('hide-result');
-    if(contenedorResultados.classList.contains('derrota')){
-        contenedorResultados.classList.remove('derrota');
-    }else if(contenedorResultados.classList.contains('victoria')){
-        contenedorResultados.classList.remove('victoria');            
-    }
-    juego.inicializar();
-}
->>>>>>> 23f1901f32d8df2abd8d5e385a3ef62bd4423a79
