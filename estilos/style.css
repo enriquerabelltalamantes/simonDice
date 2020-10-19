@@ -24,7 +24,9 @@ body{
 .result-text{
     position: absolute;
     top: 1rem;
-    left: calc(50vw - 22.5rem);
+    left: 0;
+    width: 100vw;
+    text-align: center;
     font-size: 3rem;
     color: white;
 }
